@@ -94,3 +94,10 @@ proc moveEntity*(id: ID, x: int, y: int) =
 
   let newIndex = indexOf(x, y)
   gridMap[newIndex].occupant = ent.id
+
+proc changeKindByIndex*(kind: CellKind, index: int) =
+  assert index >= 0 and index < gridMap.len, "Index out of bounds"
+  gridMap[index].kind = kind
+
+
+proc changeKind*(kind: CellKind, x: int, y: int) = changeKindByIndex(kind, indexOf(x, y))

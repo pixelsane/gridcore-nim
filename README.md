@@ -46,7 +46,7 @@ let grid = createGrid(25, 20)
 Add entities for players by specifying the owner ID:
 
 ```nim
-let entityId = createEntity(grid, 0)  # Create an entity owned by player 0
+var entityId = createEntity(grid, 0)  # Create an entity owned by player 0
 ```
 
 ### Accessing Entities

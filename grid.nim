@@ -3,6 +3,12 @@ const
 
 type 
   CellKind* = enum
+    Filled
+    Unfilled
+    A
+    B
+    C
+    D
     Traversable
     Boundary
     Exit
@@ -14,13 +20,13 @@ type
     health: float32
 
   Cell* = object
-    kind: CellKind
-    occupant: ID
+    kind*: CellKind
+    occupant*: ID
 
   Grid* = ref object
-    gridMap: seq[Cell]
-    gridWidth: int
-    gridHeight: int
+    gridMap*: seq[Cell]
+    gridWidth*: int
+    gridHeight*: int
     allEntities: seq[Entity]
     entSlot: int
     playersEntities: seq[seq[ID]]
@@ -54,13 +60,15 @@ proc createEntity*(grid: Grid, oid: ID): ID =
 
   return id
 
-proc createGrid*(width: int, height: int) : Grid =
-  var newGrid: Grid
+proc createGrid*(width: int, height: int, kind: CellKind = Unfilled) : Grid =
+  var newGrid: Grid = new Grid
   var gridMap: seq[Cell]
+  newGrid.gridWidth = width
+  newGrid.gridHeight = height
     
   for y in 0..<height:
     for x in 0..<width:
-      gridMap.add(Cell(kind: Traversable, occupant: EmptyID))
+      gridMap.add(Cell(kind: kind, occupant: EmptyID))
 
   newGrid.gridMap = gridMap
   result = newGrid
@@ -84,3 +92,9 @@ proc moveEntity*(grid: Grid, id: ID, x: int, y: int) =
 
   let newIndex = indexOf(grid, x, y)
   grid.gridMap[newIndex].occupant = ent.id
+
+proc changeKindByIndex*(grid: Grid, kind: CellKind, index: int) =
+  assert index >= 0 and index < grid.gridMap.len, "Index out of bounds"
+  grid.gridMap[index].kind = kind
+
+proc changeKind*(grid: Grid, kind: CellKind, x: int, y: int) = changeKindByIndex(grid, kind, indexOf(grid, x, y))
