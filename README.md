@@ -69,3 +69,18 @@ let index = indexOf(grid, 3, 4)
 let x = xOf(grid, index)
 let y = yOf(grid, index)
 ```
+
+In `fixedGrid`, Access to the core grid data is done through getter procs like:
+```nim
+var grid = getGridMap()
+var entities = getAllEntities()
+var playerEnts = getPlayersEntities()
+```
+
+To create entities and access them safely:
+
+```nim
+let id = createEntity(0)
+var ent = getEntity(id)
+```
+Be sure not to exceed `MaxEntities`, `MaxCells`, or `MAX_PLAYERS` as those are compile-time fixed limits.
