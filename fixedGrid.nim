@@ -28,13 +28,13 @@ type
 
   GridMap* = array[MaxCells, Cell]
   AllEntities* = array[MaxEntities, Entity]
-  PlayersEntities* = array[MAX_PLAYERS, seq[ID]]
+  PlayersEntities* = array[MaxPlayers, seq[ID]]
 
 
 var 
   gridMap: GridMap
   allEntities: array[MaxEntities, Entity]
-  playersEntities: array[MAX_PLAYERS, seq[ID]]
+  playersEntities: array[MaxPlayers, seq[ID]]
   entSlot*: int = 0
 
 proc getGridMap*(): var GridMap = gridMap

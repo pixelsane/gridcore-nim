@@ -77,10 +77,10 @@ var entities = getAllEntities()
 var playerEnts = getPlayersEntities()
 ```
 
-To create entities and access them safely:
+In `fixedGrid`, to create entities and access them safely:
 
 ```nim
 let id = createEntity(0)
 var ent = getEntity(id)
 ```
-Be sure not to exceed `MaxEntities`, `MaxCells`, or `MAX_PLAYERS` as those are compile-time fixed limits.
+In `fixedGrid`, Be sure not to exceed `MaxEntities`, `MaxCells`, or `MaxPlayers` as those are compile-time fixed limits.
