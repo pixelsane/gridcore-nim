@@ -68,3 +68,19 @@ proc createGrid*(width: int, height: int) : Grid =
 func xOf*(grid: Grid, index: ID) : int = index mod grid.gridWidth
 func yOf*(grid: Grid, index: ID) : int = index div grid.gridHeight
 func indexOf*(grid: Grid, x: int, y: int) : int = y * grid.gridWidth + x
+
+
+proc moveEntity*(grid: Grid, id: ID, x: int, y: int) =
+  var ent = getEntity(grid, id)
+  
+  if ent.x >= 0 and ent.y >= 0 and
+     ent.x < grid.gridWidth and ent.y < grid.gridHeight:
+    let oldIndex = indexOf(grid, ent.x, ent.y)
+    if grid.gridMap[oldIndex].occupant == ent.id:
+      grid.gridMap[oldIndex].occupant = EmptyID
+
+  ent.x = x
+  ent.y = y
+
+  let newIndex = indexOf(grid, x, y)
+  grid.gridMap[newIndex].occupant = ent.id

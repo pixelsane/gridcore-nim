@@ -55,9 +55,12 @@ Get a mutable reference to an entity by its ID:
 
 ```nim
 var ent = getEntity(grid, entityId)
-ent.x = 5
-ent.y = 10
 ent.health = 100.0
+
+# however, for updating states that are tracked by the grids, please use the appropriate setters
+
+# instead of ent.x = 5, use:
+moveEntity(grid, entityId, 5, 10) 
 ```
 
 ### Working with the Grid

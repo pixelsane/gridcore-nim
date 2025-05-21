@@ -73,8 +73,24 @@ proc prepareGrid*() =
   prepareGridMap()
   prepareEntities()
 
+  
 func doesEntityExist*(entArr: array[MaxEntities, Entity], id: int) : bool = entArr[id].id == EmptyID
 
 func xOf*(index: ID) : int = index mod GridWidth
 func yOf*(index: ID) : int = index div GridHeight
 func indexOf*(x: int, y: int) : int = y * GridWidth + x
+
+proc moveEntity*(id: ID, x: int, y: int) =
+  var ent = getEntity id
+  
+  if ent.x >= 0 and ent.y >= 0 and
+     ent.x < GridWidth and ent.y < GridHeight:
+    let oldIndex = indexOf(ent.x, ent.y)
+    if gridMap[oldIndex].occupant == ent.id:
+      gridMap[oldIndex].occupant = EmptyID
+
+  ent.x = x
+  ent.y = y
+
+  let newIndex = indexOf(x, y)
+  gridMap[newIndex].occupant = ent.id
