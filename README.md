@@ -18,7 +18,7 @@ Designed for 2D grid-based games and simulations, supporting flexible grid sizes
 Clone the repo or add it as a submodule to your Nim project:
 
 ```bash
-git clone https://github.com/yourusername/nim-grid-system.git
+git clone https://github.com/FunctionallySane4/gridcore-nim
 ```
 
 ---
