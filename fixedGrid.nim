@@ -109,12 +109,19 @@ proc changeKindByIndex*(kind: CellKind, index: int) =
 
 proc changeKind*(kind: CellKind, x: int, y: int) = changeKindByIndex(kind, indexOf(x, y))
 
+proc changeOccupantByIndex*(occupant: ID, index: int) =
+  assert index >= 0 and index < gridMap.len, "Index out of bounds"
+  gridMap[index].occupant = occupant
+proc changeOccupant*(occupant: ID, x: int, y: int) = changeOccupantByIndex(occupant, indexOf(x, y))
+
+proc cellOfByIndex*(index: int) : var Cell = gridMap[index]
+proc cellOf*(x: int, y: int) : var Cell = cellOfByIndex(indexOf(x,y))
+
 proc rightOf*(x: int, y: int, amount: int = 1) : int =
   if x+1 > GridWidth:
     result = -1 # no valid cell
   else:
     result = indexOf(x+amount, y)
-
 
 proc leftOf*(x: int, y: int, amount: int = 1) : int =
   if x-1 < 0:

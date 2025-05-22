@@ -2,7 +2,6 @@ const
   EmptyID* = -1
 
 type 
-  Vector = tuple[x: int, y: int]
   CellKind* = enum
     Defaul
     Filled
@@ -98,21 +97,26 @@ proc moveEntity*(grid: Grid, id: ID, x: int, y: int) =
 proc changeKindByIndex*(grid: Grid, kind: CellKind, index: int) =
   assert index >= 0 and index < grid.gridMap.len, "Index out of bounds"
   grid.gridMap[index].kind = kind
-
 proc changeKind*(grid: Grid, kind: CellKind, x: int, y: int) = changeKindByIndex(grid, kind, indexOf(grid, x, y))
+
+proc changeOccupantByIndex*(grid: Grid, occupant: ID, index: int) =
+  assert index >= 0 and index < grid.gridMap.len, "Index out of bounds"
+  grid.gridMap[index].occupant = occupant
+proc changeOccupant*(grid: Grid, occupant: ID, x: int, y: int) = changeOccupantByIndex(grid, occupant, indexOf(grid, x, y))
+
+proc cellOfByIndex*(grid: Grid, index: int) : var Cell = grid.gridMap[index]
+proc cellOf*(grid: Grid, x: int, y: int) : var Cell = cellOfByIndex(grid, indexOf(grid,x,y))
 
 proc rightOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
   if x+1 > grid.gridWidth:
     result = -1 # no valid cell
   else:
     result = indexOf(grid, x+amount, y)
-
 proc leftOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
   if x-1 < 0:
     result = -1 # no valid cell
   else:
     result = indexOf(grid, x-amount, y)
-
 proc belowOf*(grid: Grid, x: int, y: int, amount: int = 1): int =
   if y + 1 > grid.gridHeight:
     result = -1 # no valid cell
