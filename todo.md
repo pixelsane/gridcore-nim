@@ -1,3 +1,5 @@
+# Consideration
+I might trim off the entity part completely. It might be a better idea to create a separate entity library. Since after all we're just storing IDs
 # Main Impl
 Bounds Checking
 
