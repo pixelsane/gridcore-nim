@@ -12,6 +12,13 @@ type
 
 type 
   CellKind* = enum
+    Default
+    Filled
+    Unfilled
+    A
+    B
+    C
+    D
     Traversable
     Boundary
     Exit
@@ -61,16 +68,17 @@ proc createEntity*(oid: ID) : ID =
   entSlot += 1;
   result = ent.id;
 
-proc prepareGridMap() =
+proc prepareGridMap(kind: CellKind) =
   for i in 0..<MaxCells:
     gridMap[i].occupant = EmptyID
+    gridMap[i].kind = kind
 
 proc prepareEntities() =
   for i in 0..<MaxEntities:
     allEntities[i].id = EmptyID
 
-proc prepareGrid*() = 
-  prepareGridMap()
+proc prepareGrid*(kind: CellKind) = 
+  prepareGridMap(kind)
   prepareEntities()
 
   
@@ -99,5 +107,31 @@ proc changeKindByIndex*(kind: CellKind, index: int) =
   assert index >= 0 and index < gridMap.len, "Index out of bounds"
   gridMap[index].kind = kind
 
-
 proc changeKind*(kind: CellKind, x: int, y: int) = changeKindByIndex(kind, indexOf(x, y))
+
+proc rightOf*(x: int, y: int, amount: int = 1) : int =
+  if x+1 > GridWidth:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(x+amount, y)
+
+
+proc leftOf*(x: int, y: int, amount: int = 1) : int =
+  if x-1 < 0:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(x-amount, y)
+
+proc belowOf*(x: int, y: int, amount: int = 1): int =
+  if y + 1 > GridHeight:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(x, y + amount)
+
+proc isOutOfBounds*(x:int, y:int) : bool =
+  if x > GridWidth or x < 0 or 
+  y > GridHeight or y < 0: 
+    result = true
+  else:
+    result = false
+

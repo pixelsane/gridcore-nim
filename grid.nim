@@ -2,7 +2,9 @@ const
   EmptyID* = -1
 
 type 
+  Vector = tuple[x: int, y: int]
   CellKind* = enum
+    Defaul
     Filled
     Unfilled
     A
@@ -98,3 +100,29 @@ proc changeKindByIndex*(grid: Grid, kind: CellKind, index: int) =
   grid.gridMap[index].kind = kind
 
 proc changeKind*(grid: Grid, kind: CellKind, x: int, y: int) = changeKindByIndex(grid, kind, indexOf(grid, x, y))
+
+proc rightOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
+  if x+1 > grid.gridWidth:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(grid, x+amount, y)
+
+proc leftOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
+  if x-1 < 0:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(grid, x-amount, y)
+
+proc belowOf*(grid: Grid, x: int, y: int, amount: int = 1): int =
+  if y + 1 > grid.gridHeight:
+    result = -1 # no valid cell
+  else:
+    result = indexOf(grid, x, y + amount)
+
+proc isOutOfBounds*(grid: Grid, x:int, y:int) : bool =
+  if x > grid.gridWidth or x < 0 or 
+  y > grid.gridHeight or y < 0: 
+    result = true
+  else:
+    result = false
+

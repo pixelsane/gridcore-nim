@@ -58,7 +58,6 @@ var ent = getEntity(grid, entityId)
 ent.health = 100.0
 
 # however, for updating states that are tracked by the grids, please use the appropriate setters
-
 # instead of ent.x = 5, use:
 moveEntity(grid, entityId, 5, 10) 
 ```
