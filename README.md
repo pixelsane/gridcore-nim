@@ -10,7 +10,7 @@ Designed for 2D grid-based games and simulations, supporting flexible grid sizes
 - Easy to extend and embed in your Nim projects  
 
 ---
-*Note: I have trimmed Entity support/system for this library, as it does not make any sense for entity logic merging with grid structures. I have plans on creating a separate entity library however.*
+*Note: I have trimmed Entity support/system for this library, as it does not make any sense for entity management and logic merging with grid structures. I have plans on creating a separate entity library however.*
 
 ## Installation
 

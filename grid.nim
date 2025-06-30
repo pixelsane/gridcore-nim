@@ -17,7 +17,6 @@ type
     Exit
 
   ID* = int
-
   Cell* = object
     kind*: CellKind
     occupant*: ID
@@ -26,6 +25,24 @@ type
     gridMap*: seq[Cell]
     gridWidth*: int
     gridHeight*: int
+
+func xOf*(grid: Grid, index: ID) : int = index mod grid.gridWidth
+func yOf*(grid: Grid, index: ID) : int = index div grid.gridHeight
+func indexOf*(grid: Grid, x: int, y: int) : int = y * grid.gridWidth + x
+
+proc kind*(grid: Grid, index: int) : CellKind =
+  assertIndex index
+  return grid.gridMap[index].kind
+
+proc kindOf*(grid: Grid, x: int, y: int) : CellKind =
+  return kind(grid, indexOf(x,y))
+
+proc occupant*(grid: Grid, index: int) : ID =
+  assertIndex index
+  return grid.gridMap[index].occupant
+
+proc occupantOf*(grid:Grid, x: int, y: int) : ID =
+  return occupant(grid, indexOf(x,y))
 
 proc createGrid*(width: int, height: int, kind: CellKind = Unfilled) : Grid =
   var newGrid: Grid = new Grid
@@ -40,10 +57,6 @@ proc createGrid*(width: int, height: int, kind: CellKind = Unfilled) : Grid =
   newGrid.gridMap = gridMap
   result = newGrid
 
-func xOf*(grid: Grid, index: ID) : int = index mod grid.gridWidth
-func yOf*(grid: Grid, index: ID) : int = index div grid.gridHeight
-func indexOf*(grid: Grid, x: int, y: int) : int = y * grid.gridWidth + x
-
 proc changeKindByIndex*(grid: Grid, kind: CellKind, index: int) =
   assert index >= 0 and index < grid.gridMap.len, "Index out of bounds"
   grid.gridMap[index].kind = kind
@@ -57,17 +70,17 @@ proc changeOccupant*(grid: Grid, occupant: ID, x: int, y: int) = changeOccupantB
 proc cellOfByIndex*(grid: Grid, index: int) : var Cell = grid.gridMap[index]
 proc cellOf*(grid: Grid, x: int, y: int) : var Cell = cellOfByIndex(grid, indexOf(grid,x,y))
 
-proc rightOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
+proc indexRightOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
   if x+1 > grid.gridWidth:
     result = -1 # no valid cell
   else:
     result = indexOf(grid, x+amount, y)
-proc leftOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
+proc indexLeftOf*(grid: Grid, x: int, y: int, amount: int = 1) : int =
   if x-1 < 0:
     result = -1 # no valid cell
   else:
     result = indexOf(grid, x-amount, y)
-proc belowOf*(grid: Grid, x: int, y: int, amount: int = 1): int =
+proc indexBelowOf*(grid: Grid, x: int, y: int, amount: int = 1): int =
   if y + 1 > grid.gridHeight:
     result = -1 # no valid cell
   else:
@@ -80,3 +93,7 @@ proc isOutOfBounds*(grid: Grid, x:int, y:int) : bool =
   else:
     result = false
 
+proc clearColumn*(grid: grid, clearKind = Empty) =
+  for i in 0..grid.gridWidth:
+    changeKindByIndex grid, i, clearKind
+    changeOccupantByIndex grid, EmptyID, i
