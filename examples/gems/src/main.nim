@@ -10,7 +10,7 @@ type TransitionState = enum
 
 const 
   authName = "pixelsane"
-  appName = "Braindead Gem Collector"
+  appName = "Gems"
 
 const
   gridSizePx = 16
