@@ -93,7 +93,7 @@ proc isOutOfBounds*(grid: Grid, x:int, y:int) : bool =
   else:
     result = false
 
-proc clearColumn*(row: int, grid: grid, clearKind = Empty) =
+proc clearColumn*(grid: grid, row: int, clearKind = Empty) =
   let
     startingColumn = row * grid.gridWidth
     endingColumn = (row * grid.gridWidth) + grid.gridWidth
