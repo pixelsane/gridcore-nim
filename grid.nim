@@ -93,7 +93,11 @@ proc isOutOfBounds*(grid: Grid, x:int, y:int) : bool =
   else:
     result = false
 
-proc clearColumn*(grid: grid, clearKind = Empty) =
-  for i in 0..grid.gridWidth:
-    changeKindByIndex grid, i, clearKind
+proc clearColumn*(row: int, grid: grid, clearKind = Empty) =
+  let
+    startingColumn = row * grid.gridWidth
+    endingColumn = (row * grid.gridWidth) + grid.gridWidth
+
+  for i in startingColumn ..< endingColumn:
+    changeKindByIndex grid, clearKind, i
     changeOccupantByIndex grid, EmptyID, i

@@ -2,7 +2,7 @@ const
   EmptyID* = -1
   GridWidth* = 8
   GridHeight* = 8
-  MaxCells* = 64
+  MaxCells* = GridWidth * GridHeight
 
 # Add or remove types according to need
 type 
@@ -102,7 +102,11 @@ proc isOutOfBounds*(x:int, y:int) : bool =
   else:
     result = false
 
-proc clearColumn*(target: int, clearKind = Empty) =
-  for i in 0..GridWidth:
-    changeKind clearKind, i, target
-    changeOccupant EmptyID, i, target
+proc clearColumn*(row: int, clearKind: CellKind = Empty) =
+  let
+    startingColumn = row * GridWidth
+    endingColumn = (row * GridWidth) + GridWidth
+
+  for i in startingColumn ..< endingColumn:
+    changeKindByIndex clearKind, i
+    changeOccupantByIndex EmptyID, i
